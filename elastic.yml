@@ -21,12 +21,6 @@ spec:
     env:
       - name: ES_JAVA_OPTS
         value: -Xms512m -Xmx512m
-      - name: bootstrap.memory_lock
-        value: "true"
-      - name: cluster.name
-        value: es-docker-cluster
-      - name: node.name
-        value: es01
     resources: {}
     
 ---
