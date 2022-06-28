@@ -1,54 +1,29 @@
----
-#A namespace for all the elastic components
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: bsi-conan-cpm
-
----
 #Elastic search 
-apiVersion: v1
-kind: Pod
+apiVersion: elasticsearch.k8s.elastic.co/v1
+kind: Elasticsearch
 metadata:
-  name: elastic-pod
-  namespace: bsi-conan-cpm
+  name: myElastic
 spec:
-  containers:
-  - name: elasticsearch
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.0
-    ports:
-      - containerPort: 9200
-    env:
-      - name: ES_JAVA_OPTS
-        value: -Xms512m -Xmx512m
-      - name: bootstrap.memory_lock
-        value: "true"
-      - name: cluster.name
-        value: es-docker-cluster
-      - name: discovery.type
-        value: single-node
-      - name: node.name
-        value: es01
-    resources: {}
-    
+  version: 7.9.0
+  nodeSets:
+  - name: master-nodes
+    count: 1
+    config:
+      node.master: true
+      node.data: false
+  - name: data-nodes
+    count: 1
+    config:
+      node.master: false
+      node.data: true
 ---
 #Kibana
-apiVersion: v1
-kind: Pod
+apiVersion: kibana.k8s.elastic.co/v1
+kind: Kibana
 metadata:
-  name: kibana-pod
-  namespace: bsi-conan-cpm
+  name: myKibana
 spec:
-  containers:
-  - name: kibana
-    image: docker.elastic.co/kibana/kibana:7.9.0
-    ports:
-      - containerPort: 5601
-    env:
-      - name: ELASTICSEARCH_HOSTS
-        value: http://es01:9200
-      - name: ELASTICSEARCH_URL
-        value: http://es01:9200
-      - name: node.name
-        value: kib01
-    resources: {}
+  version: 7.9.0
+  count: 1
+  elasticsearchRef:
+  - name: myElastic
