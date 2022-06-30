@@ -1,29 +1,10 @@
-#Elastic search 
-apiVersion: elasticsearch.k8s.elastic.co/v1
-kind: Elasticsearch
+apiVersion: v1
+kind: Pod
 metadata:
- name: myelastic
+  name: web-frontend
+  labels:
+    app: web-frontend
 spec:
- version: 7.9.0
- nodeSets:
- - name: master-nodes
-   count: 1
-   config:
-    node.master: true
-    node.data: false
- - name: data-nodes
-   count: 1
-   config:
-    node.master: false
-    node.data: true
----
-#Kibana
-apiVersion: kibana.k8s.elastic.co/v1
-kind: Kibana
-metadata:
- name: mykibana
-spec:
- version: 7.9.0
- count: 1
- elasticsearchRef:
-  name: myelastic
+  containers:
+  - name: nginx
+    image: nginx:1.19.1
