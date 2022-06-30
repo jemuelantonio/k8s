@@ -26,4 +26,4 @@ spec:
   version: 7.9.0
   count: 1
   elasticsearchRef:
-  - name: myElastic
+    name: myElastic
