@@ -16,3 +16,14 @@ spec:
     config:
       node.master: false
       node.data: true
+---
+#Kibana
+apiVersion: kibana.k8s.elastic.co/v1
+kind: Kibana
+metadata:
+  name: mykibana
+spec:
+  version: 7.9.0
+  count: 1
+  elasticsearchRef:
+    name: myelastic
