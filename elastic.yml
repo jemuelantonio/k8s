@@ -2,7 +2,7 @@
 apiVersion: elasticsearch.k8s.elastic.co/v1
 kind: Elasticsearch
 metadata:
-  name: myElastic
+  name: myelastic
 spec:
   version: 7.9.0
   nodeSets:
@@ -21,7 +21,9 @@ spec:
 apiVersion: kibana.k8s.elastic.co/v1
 kind: Kibana
 metadata:
-  name: myKibana
+  name: mykibana
 spec:
   version: 7.9.0
   count: 1
+  elasticsearchRef:
+    name: myelastic
